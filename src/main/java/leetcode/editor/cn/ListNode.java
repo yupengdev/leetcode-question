@@ -1,4 +1,4 @@
-package com.shuzijun.leetcode;
+package leetcode.editor.cn;
 
 /**
 
