@@ -1,0 +1,51 @@
+### 解题思路
+
+使用优先队列去存储所有链表。按照链表头结点值，进行从小到大的排序，最小的头结点的链表在堆顶。
+1、每次将堆顶的链表取出
+2、将头结点从取出的链表上去除，并插在所需目标链表的尾部。
+3、将取出的链表放回堆中。若链表为null，则不放回。
+重复1，2，3过程，直到堆为空，循环终止。
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+
+        if(lists.length == 0) return null;
+
+        Queue<ListNode> heap = new PriorityQueue<>((a,b) -> a.val - b.val);
+        for (ListNode list : lists) {
+            if(list != null){
+                heap.add(list);
+            }
+            
+        }
+
+        ListNode head = new ListNode();
+        ListNode h = head;
+        while(!heap.isEmpty()){
+            // 取出堆顶链表
+            ListNode cur = heap.poll();
+            
+            //将头节点取下
+            ListNode cnext = cur.next;  
+            cur.next = null;
+            //目标链表连接头结点
+            h.next = cur;
+            h = h.next;
+
+            //若取出的链表不为空，则放回
+            if(cnext != null){
+                heap.offer(cnext);
+            }
+        }
+
+        return head.next;
+
+    }
+}
+```
+

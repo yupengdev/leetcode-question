@@ -1,0 +1,43 @@
+### 解题思路
+
+回溯框架： for循环中递归回溯，回溯前选择元素push到路径，回溯结束从路径中pop掉
+由于全排列是没有顺序的，因此不设start参数，也正因此，回溯前需判断路径中是否已经存在，存在的话
+则continue继续for，否则选择->递归回溯->撤销选择
+此类回溯问题最好画出多叉树
+
+### 代码
+
+* cpp
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> res;
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<int> track;
+        backtrack(nums, track);
+        return res;
+    }
+private:
+    void backtrack(vector<int>& nums, vector<int>& track){
+        //当到达叶子节点
+        if(track.size() == nums.size()){
+            res.push_back(track);
+            return;  //退出递归
+        }
+        for(int i=0; i<nums.size(); ++i){
+            //由于全排列没有那个元素开头一说，因此没有start参数，但是要注意已经push到track中的就不要重复push了
+            if(count(track.begin(), track.end(), nums[i])){ //判断nums[i]是否在vector中用count函数，同map
+                continue;
+            }
+            //做选择，将nums[i]放到路径中
+            track.push_back(nums[i]);
+            //递归回溯
+            backtrack(nums, track);
+            //撤销选择
+            track.pop_back();
+        }
+    }
+};
+```
+
