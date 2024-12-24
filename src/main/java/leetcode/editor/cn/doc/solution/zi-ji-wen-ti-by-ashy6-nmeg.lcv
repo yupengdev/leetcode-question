@@ -1,0 +1,52 @@
+### 解题思路
+
+此处撰写解题思路
+思路感觉没什么问题，那么我和官方的区别在哪里
+
+### 代码
+
+* javascript
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ * 思路：定义空数组
+ 输出的数组属于原数组的东西，则把它放入空数组之中。
+ */
+// var subsets = function (nums) {
+//     const arr = [];
+//     for (let i = 0; i < (1 << nums.length); ++i) {
+//         // 这里实现取元素
+//         let arrIn = [];
+//         for (let x = 0; x < nums.length; ++x) {
+//             if (i & (1 << x)) {
+//                 arrIn.push(nums[x]);
+//             }
+//         }
+//         arr.push();
+//     }
+//     return arr;
+// };
+
+var subsets = function(nums) {
+    const ans = [];
+    const n = nums.length;
+    for (let mask = 0; mask < (1 << n); ++mask) {
+        const t = [];
+        for (let i = 0; i < n; ++i) {
+            if (mask & (1 << i)) {
+                t.push(nums[i]);
+            }
+        }
+        ans.push(t);
+    }
+    return ans;
+};
+
+// 作者：LeetCode-Solution
+// 链接：https://leetcode-cn.com/problems/subsets/solution/zi-ji-by-leetcode-solution/
+// 来源：力扣（LeetCode）
+// 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+```
+

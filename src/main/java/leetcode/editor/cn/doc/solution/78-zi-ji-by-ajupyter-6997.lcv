@@ -1,0 +1,109 @@
+> Problem: [78. 子集](https://leetcode.cn/problems/subsets/description/)
+
+[TOC]
+
+# 输入视角
+
+## 思路
+
+        '''
+        子集型回溯：每个元素都可以选/不选
+
+        时间复杂度O(n2^n), n为nums的长度。由于每个元素都是选或者不选，递归次数为一共满二叉树的节点个数
+            一共会递归O(2^n)次，再算入加入答案时，复制道path需要O(n)的时间，所以时间复杂度为O(n2^n)
+        空间复杂度O(n)
+        '''
+
+## Code
+
+* []
+
+```Python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        '''
+        子集型回溯：每个元素都可以选/不选
+
+        时间复杂度O(n2^n), n为nums的长度。由于每个元素都是选或者不选，递归次数为一共满二叉树的节点个数
+            一共会递归O(2^n)次，再算入加入答案时，复制道path需要O(n)的时间，所以时间复杂度为O(n2^n)
+        空间复杂度O(n)
+        '''
+        ans = []
+        path = []
+        n = len(nums)
+        
+        def dfs(i: int) -> None:
+            # dfs(i)中的i表示当前nums[i]选或者不选
+            if i == n:  # 子集构造完毕
+                ans.append(path.copy())  # 复制 path，也可以写 path[:]
+                return
+                
+            # 不选 nums[i]
+            dfs(i + 1)
+            
+            # 选 nums[i]
+            path.append(nums[i])
+            dfs(i + 1)
+            path.pop()  # 恢复现场
+            
+        dfs(0)
+        return ans
+```
+
+# 答案视角
+
+## 思路
+
+        '''
+        答案视角，枚举答案的第一个数选谁，第二个数选谁，以此类推
+        dfs中的i表示要枚举选nums[i]到nums[n-1]中的一个数，添加到path末尾
+        如果选nums[j]添加到path末尾，那么下一个要添加到path末尾的数，
+        就要在nums[j+1]到nums[n-1]中枚举了
+
+
+        时间复杂度O(n2^n)，n为nums的长度。答案的长度为子集的个数，即2^n
+        每次递归都把一个数组放入答案，因此会递归2^n次，再算上加入答案时复制path需要O(n)
+        的时间，所以时间复杂度为O(n2^n)
+        空间复杂度O(n)
+        '''
+
+## Code
+
+* []
+
+```Python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        '''
+        答案视角，枚举答案的第一个数选谁，第二个数选谁，以此类推
+        dfs中的i表示要枚举选nums[i]到nums[n-1]中的一个数，添加到path末尾
+        如果选nums[j]添加到path末尾，那么下一个要添加到path末尾的数，
+        就要在nums[j+1]到nums[n-1]中枚举了
+
+
+        时间复杂度O(n2^n)，n为nums的长度。答案的长度为子集的个数，即2^n
+        每次递归都把一个数组放入答案，因此会递归2^n次，再算上加入答案时复制path需要O(n)
+        的时间，所以时间复杂度为O(n2^n)
+        空间复杂度O(n)
+        '''
+        ans = []
+        path = []
+        n = len(nums)
+
+        def dfs(i):
+            ans.append(path.copy())
+
+            if i == n:
+                return
+
+            for j in range(i, n):
+                path.append(nums[j])
+                dfs(j+1)
+                path.pop() # 恢复现场
+            
+        dfs(0)
+        return ans
+
+            
+```
+
